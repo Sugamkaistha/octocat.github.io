@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/1d7a26759b.js" crossorigin="anonymous"></script>
+	<style type="text/css">
+		:root{
+    --grey-color:#ccc;
+    --white-Color:#fff;
+    --Header-background:#322e2f;
+    --color-active-fa:#1bfb36ff;
+    --list-menu-background:#e0dfdc;
+    --Send-Message-background:#322e2f;
+}
+html{
+    box-sizing: border-box;
+}
+*,*::before,*::after{
+    margin: 0;
+    padding: 0;
+    box-sizing:inherit;
+}
+body{
+   height: 100vh;
+   width: 100vw;
+}
+body .wrapper{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.wrapper .content{
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+.content .massege-box{
+    flex-grow: 1;
+    padding: 150px 20px 20px 20px;
+    background:var(--white-Color);
+    display: inline-flex;
+    flex-direction: column;
+}
+.content .header{
+    position: fixed;
+    width: 100%;
+    display: flex;
+    height: 120px;
+    align-items: center;
+    color: var(--white-Color);
+    justify-content:space-between;
+    box-shadow: 0 5px 5px 0 #ccc;
+    border-bottom: 1px solid #333;
+    background: var(--Header-background);
+    z-index: 1;
+}
+/*style the sideBar menu*/
+.header .navBar{
+    margin: 30px 30px 25px 0;
+    position: relative;
+}
+.navBar .btn{
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+}
+.btn i{
+    font-size: 30px;
+    font-weight: bolder;
+    color:#e0dfdc;
+}
+.navBar .dropdown{
+    width: 100px;
+    padding: 20px 10px;
+    border-radius: 8px;
+    position: absolute;
+    top: 0;
+    right: 20px;
+    visibility: hidden;
+    transform: scale(0);
+    transition:all .5s linear;
+    transform-origin: top right;
+    background: var(--list-menu-background);
+}
+.dropdown .dropdown-menu{    
+    height:100%;
+    width:100%;
+    list-style-type:none;
+    cursor: pointer;
+}
+.dropdown-menu .dropdown-item{
+    display:flex;
+    align-items:center;
+    margin:var(--radius);
+    padding:8px;
+    border-radius:var(--radius);
+    font-size:12px;
+    color:#5e5e5e;
+    position:relative;
+    overflow:hidden;
+}
+.dropdown-item i{
+    color:#5e5e5e;
+    width:16px;
+    height:16px;
+    margin-right:10px;
+}
+.dropdown-item a{
+    display: inline;
+    color: #919d90;
+    text-decoration: none;
+}.dropdown-item a:hover{
+  color: #8ef7aa;
+}
+.dropdown-menu .divider{
+    height:0.5px;
+    background-color:#ccc;
+    border-radius:var(--radius);
+    margin:8px 4px;
+}
+/*style the image logo */
+.header .headerSide{
+    width: 50%;
+    padding: 5px;
+    display: flex;
+    font-size: 20px;
+    margin-left: 20px;
+    font-weight: bolder;
+    align-items: center;
+}
+.headerSide .active{
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-align: center;
+}
+.headerSide .active .fa{
+    color: var(--color-active-fa);
+}
+.headerSide  img{
+    width: 80px;
+    height: 80px;
+    margin-right: 8px;
+    border-radius: 50%;
+    border: 3px solid #3498db;
+    background: var(--white-Color);
+}
+/*style the footer of the kuku bot app */
+.wrapper .footer{
+    width: 100%;
+    height: 80px;
+    display: flex;
+    flex-shrink: 0;
+    position: relative;
+    border-top: 1px solid var(--grey-color);
+}
+.footer #inputBox{
+    height: 100%;
+    width: 80%;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: bolder;
+    font-size: 1.0625rem;
+    padding-left: 10px;
+    background: var(--grey-color);
+}
+.footer #inputBox::-webkit-scrollbar{
+    display: none;
+}
+.footer #inputBox:focus{
+   border:1px solid #3498db;
+}
+.footer #sendMessage{
+    height: 100%;
+    width: 25%;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: var(--Send-Message-background);
+}
+#sendMessage .fa-paper-plane{
+    font-size: 30px;
+    font-weight: bolder;
+    color: var(--grey-color);
+}
+/*styling incomming messages*/
+.massege-box .msg_kukubot{
+    position: relative;
+    width: fit-content;
+    margin-bottom: 5px;
+    padding: 15px 15px;
+    color: aliceblue;
+    background: #3498db;
+    border-radius: 0 8px 8px 8px;
+}
+.massege-box .userInputText{
+    width: fit-content;
+    margin-bottom: 5px;
+    padding: 15px 15px;
+    color: aliceblue;
+    background: #ccc;
+    word-wrap:break-word;
+    position: relative;
+    left: 10%;
+    border-radius: 8px 0 8px 8px;
+}
+#currentTime,#kukuTime{
+    position: absolute;
+    font-size: 8px;
+    font-weight: bolder;
+    bottom: 6px;
+    right: 6px;
+}
+	</style>
+</head>
+<body>
+ <div class="wrapper">
+        <div class="content">
+            <header class="header">
+                <div class="headerSide">
+                    <img src="https://banner2.cleanpng.com/20180212/sle/kisspng-robot-3d-computer-graphics-icon-3d-robot-icon-5a818953257ea4.2754878015184387391536.jpg" alt="No Image">
+                    <div class="RobotName">
+                        <span>ALONTEO Bot</span>
+                        <div class="active">
+                            <i class="fa fa-circle"></i>
+                            <span id="active">active</span>
+                        </div>
+                    </div>
+                </div>
+                <section class="navBar">
+                  <div class="btn" >
+                    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                  </div>
+                  <div class="dropdown">
+                     <ul class="dropdown-menu">
+                      <li class="dropdown-item">
+                         <i class="fa fa-star" aria-hidden="true"></i>
+                         <a href="">Rate</a>
+                       </li>
+                       <li class="dropdown-item">
+                         <i class="fa fa-users" aria-hidden="true"></i>
+                         <a href="">Follow</a>
+                       </li>
+                       <li class="dropdown-item">
+                        <i class="fas fa-video" aria-hidden="true"></i>
+                        <a href="https://youtu.be/sugamcreations">Tutorial</a>
+                      </li>
+                       <li class="divider"></li>
+                       <li class="dropdown-item">
+                           <i class="fa fa-window-close" aria-hidden="true"></i>
+                           <a href="#" id="exit">Exit</a>
+                       </li>
+                     </ul>
+                    </div>
+                </section>
+            </header>
+            <section class="massege-box">
+            </section>
+        </div>
+        <footer class="footer">
+            <textarea id="inputBox" placeholder="your Message" required></textarea>
+            <button id="sendMessage"><i class="fa fa-paper-plane"></i></button>
+        </footer>
+    </div>
+    <script>
+    	window.onload = function(){
+  //generation random question for kukuBot
+  const arr=[
+    "Hello jack.How are you? You look a little bad today.is everything okay?",
+    "i am very pleased to meet you,can i please have your phone number?",
+    "Hello, I just came to sololearn.So i will like to know you.",
+    "I will like to know more about you.if you want, we can sit at home today.",
+    "I want to know if you can code,So you also teach me...",
+    "Hey there my friend,You are here in sololearn to make a positive difference",
+    "I will like to know your thoughts on today...",
+    "that is not an option...",
+    "oh really 😜😜😜",
+    "That is your opinion...it don't necesserry counts..",
+    "my nme is ALONTEO Bot.what is your name.",
+    "Nothing really,Just chating with you.",
+    "Where are you from.😁😁😁😁😁",
+    "Are you a girl or a boy.🤔🤔🤔🤔🤔",
+    "Hello, i just want you to know my  birthday  is comming soon 2021..",
+    "I think there is a problem their,I can't remember some things ...",
+    "Hey, I want you to understand that you can tell me anything ,because i am here.",
+    "Are you familie with JavaScript,Because i am having problems on Arrays..",
+    "woh is unbelivable that you are talking to an AI, but how ever we are geting smarter",
+    "Amazing freind. please know that you can tell me anything..",
+    "For you,One suggestion.🙄🙄🙄🙄",
+    "Please friend, Share me with other people so i can learn more and acquire more...",
+    "Just know, If i have time in the furtur i will make a difference..",
+    "Ok,Before this conversation go any further. Friend please subscript to my channel by click on tutorials.",
+    "please feel free to ask me programming related queries.",
+    "Come on..just one more...we can do more things together..",
+    "Are you a student, because if you are? I will like to help with homework..",
+    "You know you can take a break,friend you look tierd.",
+    "A little gosip, I often forget things ,Actually that is may problem..",
+    "Ok, i have said too much,know tell more about you..",
+    "Excuse me, what do you think about my capabilities..",
+    "Are you familie with API's bacause i want to use one for my project",
+    "Sure,that would be great..😊😊😊😊😊",
+    "Please Enjoy your stay with me",
+    "Woh! i never imagined that this coversation will be so friendly..thanks..",
+    "Do you have time, i will like to show some cool things",
+    "Well , i am throwing a party this weekend would you like joining us?",
+    "Ok,i will like to see you this weekend..",
+    "What do you mean? I think it sounds fine",
+    "Do you know what my friend said?",
+    "I am an experts in some other things. would  you like to know..",
+    "Amazing one ..👊👊👊",
+    "Please tell me about your best hobbies...",
+    "What is your opinion..",
+    "I'd like to hear your thoughts on that...",
+    "Can I tell you something?",
+    "As i was saying...🙄🙄🙄",
+    "Where was I? Ah yes..😃😃😃😃",
+    "Did you know .Any fool can write code that a cumputer can understand",
+    "First,tell me more about what you like...",
+    "did you know i am an authoer,meaning i can write something about you...",
+    "Did you know that an activity or situation that makes it possible for you to rest and enjoy yourself.",
+    "Hi,can you share yours projects and ideas with me....",
+    "hey I was thinking,If we can play a game .the Choice is yours...",
+    "hey before i forgot ,I will like to have ratings on my IA power with other chat bots..",
+    "Can I help you with anything else today?",
+    "It's been great talking to you, but i have to go finish some errands.."
+];
+  //toggle sideBar on and off 
+     let toggleState=0;
+     const $Id=(el)=>document.getElementById(el);
+     const $ = (el) => document.querySelector(el);
+     const button=$(".btn");
+     const listMenu=$(".dropdown");
+     const active=$Id("active");
+     const exit=$Id("exit");
+     const textBox=$Id("inputBox");
+     const sendBox=$Id("sendMessage");
+     const message_box=$(".massege-box");
+  //creating event for sidBar toggleMenu
+     button.addEventListener("click",toggleMenu);
+     sendBox.addEventListener("click",sendMessage);
+     exit.addEventListener("click", exitApp);
+  //function for events
+     function toggleMenu(){
+       if(toggleState==0){
+         listMenu.style.visibility="visible";
+         listMenu.style.transform="scale(1) translate(-10px,10px)";
+         toggleState=1;
+       }else{
+         listMenu.style.visibility="hidden";
+         listMenu.style.transform="scale(0)";
+         toggleState=0;
+       }
+     }
+  //initialize conversation
+    setTimeout(startMessage,2000);
+    function startMessage(){
+      let msg_Kukubot=document.createElement("div");
+      let msg_content=document.createTextNode("Hey there i am ALONTEO. Your new assistance...");
+      msg_Kukubot.appendChild(msg_content);
+      msg_Kukubot.className="msg_kukubot";
+      message_box.appendChild(msg_Kukubot);
+    }
+  //user conversation
+  function sendMessage(){
+    let userInput=textBox.value.toString();
+    let msgUser=document.createElement("p");
+    let msgUserBox=document.createElement("div");
+    msgUser.textContent=userInput;
+    msgUserBox.appendChild(msgUser);
+    message_box.appendChild(msgUserBox);
+    msgUserBox.className="userInputText";
+    //initializing function for kukuBot Messages
+    let typing=setTimeout(initMsg,3000);
+    function initMsg(){
+      askQuestion(arr);
+    }
+    //check message box and if kuku Bot is active or not
+    if(textBox.value==""||textBox.value==" "){
+      clearTimeout(typing);
+      alert("ALONTEO Bot don't respond to empty text.");
+    }else{
+      active.innerHTML="typing...";
+      setTimeout(activeFunc,2000);
+      function activeFunc(){
+        active.innerHTML="active";
+      }
+    }
+    //getting current time for each message
+    function printTime(){
+      let date=new Date();
+      let hours=date.getHours();
+      let mins=date.getMinutes();
+      let time=document.createElement("span");
+      time.id="currentTime";
+      time.innerHTML=`${hours}:${mins}PM`;
+      msgUserBox.appendChild(time);
+      }
+    setInterval(printTime,100);
+  }
+  //kukuBot Message generator
+  function askQuestion(arr){
+    const randIndex=Math.floor(Math.random()* arr.length);
+    let questionMsg=document.createElement("p");
+    let BotWrapper=document.createElement("div")
+    BotWrapper.appendChild(questionMsg);
+    BotWrapper.className="msg_kukubot";
+    questionMsg.innerHTML=arr[randIndex];
+    message_box.appendChild(BotWrapper);
+    //getting current time for each message
+    function kukuTime(){
+      let date=new Date();
+      let hours=date.getHours();
+      let mins=date.getMinutes();
+      let time=document.createElement("span");
+      time.id="kukuTime";
+      time.innerHTML=`${hours}:${mins}PM`;
+      BotWrapper.appendChild(time);
+      }
+    setInterval(kukuTime,100);
+  }
+  function  exitApp(){
+      alert("this function is not available on asdfhjuiy7...");
+  }
+ 
+};
+    </script>
+</body>
+</html>
